@@ -52,6 +52,8 @@ def graphe_1():
 
     """
 
+    g=Graphe(5,[ (0,1), (0,3), (0,4), (1,2), (1,4), (2,3) ])
+    return g
 
 def graphe_2():
     """Retourne le graphe G2.
@@ -75,6 +77,9 @@ def graphe_2():
 
     """
 
+    g=Graphe(7,[ (0,2), (0,6), (1,3), (1,5), (2,4), (4,6) ])
+    return g
+
 def graphe_complet(n):
     """Retourne un graphe complet à n sommet.
 
@@ -93,6 +98,13 @@ def graphe_complet(n):
 
     """
 
+    g=Graphe(n)
+    for i in range(n):
+        for j in range(n):
+            if (i!=j) && (i<j):
+                g.ajouter_arete(i,j)
+    return g
+
 def cycle(n):
     """Retourne un cycle à n sommet.
 
@@ -110,6 +122,11 @@ def cycle(n):
         {5: 0--1 0--4 1--2 2--3 3--4}
 
     """
+
+    g=Graphe(n, [(0,1),(0,n-1)])
+    for i in range(1,n-1):
+        g.ajouter_arete(i,i+1)
+    return g
 
 def graphe_complementaire(g): # *
     """Retourne le graphe complémentaire de g.
@@ -149,6 +166,9 @@ def degre(g, v):
 
     """
 
+    res=len(g.voisins(v))
+    return res
+
 def degre_max(g):
     """Retourne le degré maximum du graphe g.
 
@@ -173,6 +193,13 @@ def degre_max(g):
 
     """
 
+    res=-1
+    for i in range(g.nombre_sommets()):
+        degre=len(g.voisins(i))
+        if degre>res:
+            res=degre
+    return res
+
 def nombre_aretes(g):
     """Retourne le nombre d'arêtes du graphe g.
 
@@ -196,6 +223,13 @@ def nombre_aretes(g):
         10
 
     """
+
+    res=0
+    for i in range(g.nombre_sommets()):
+        num_voisins=len(g.voisins(i))
+        res=res+num_voisins
+    res=res/2
+    return res
 
 def matrice_adjacence(g):
     """Retourne la matrice d'adjacence du graphe g.
@@ -298,19 +332,26 @@ def parcours_postfixe(g, u):
         :Examples:
 
         >>> parcours_postfixe(graphe_1(), 0)
-        3 2 4 1 0 
+        3 2 4 1 0
         >>> parcours_postfixe(graphe_1(), 1)
-        2 3 4 0 1 
+        2 3 4 0 1
         >>> parcours_postfixe(graphe_2(), 0)
-        6 4 2 0 
+        6 4 2 0
         >>> parcours_postfixe(graphe_2(), 1)
-        5 3 1 
+        5 3 1
         >>> parcours_postfixe(graphe_complet(5), 0)
-        4 3 2 1 0 
+        4 3 2 1 0
         >>> parcours_postfixe(cycle(7), 1)
-        2 3 4 5 6 0 1 
+        2 3 4 5 6 0 1
 
     """
+
+    res=str()
+    sommet=g.premier_voisin(u)
+    while sommet!=u :
+        res+=str(sommet)+" "
+        sommet=g.premier_voisin(sommet)
+    return res
 
 # Pour le parcours en largeur, il est nécessaire d'utiliser une file.
 # Vous devez donc implémenter les fonctions creer_file, enfiler, defiler et
@@ -430,17 +471,17 @@ def parcours_largeur(g, u):
         :Examples:
 
         >>> parcours_largeur(graphe_1(), 0)
-        0 1 3 4 2 
+        0 1 3 4 2
         >>> parcours_largeur(graphe_1(), 1)
-        1 0 2 4 3 
+        1 0 2 4 3
         >>> parcours_largeur(graphe_2(), 0)
-        0 2 6 4 
+        0 2 6 4
         >>> parcours_largeur(graphe_2(), 1)
-        1 3 5 
+        1 3 5
         >>> parcours_largeur(graphe_complet(5), 0)
-        0 1 2 3 4 
+        0 1 2 3 4
         >>> parcours_largeur(cycle(7), 1)
-        1 0 2 6 3 5 4 
+        1 0 2 6 3 5 4
 
     """
 
@@ -453,17 +494,17 @@ def parcours_prefixe(g, u):
         :Examples:
 
         >>> parcours_prefixe(graphe_1(), 0)
-        0 1 2 3 4 
+        0 1 2 3 4
         >>> parcours_prefixe(graphe_1(), 1)
-        1 0 3 2 4 
+        1 0 3 2 4
         >>> parcours_prefixe(graphe_2(), 0)
-        0 2 4 6 
+        0 2 4 6
         >>> parcours_prefixe(graphe_2(), 1)
-        1 3 5 
+        1 3 5
         >>> parcours_prefixe(graphe_complet(5), 0)
-        0 1 2 3 4 
+        0 1 2 3 4
         >>> parcours_prefixe(cycle(7), 1)
-        1 0 6 5 4 3 2 
+        1 0 6 5 4 3 2
 
     """
 
@@ -680,4 +721,3 @@ def chemin_eulerien(g): # *
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True, optionflags=doctest.FAIL_FAST)
-
