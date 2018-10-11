@@ -77,7 +77,7 @@ def graphe_2():
 
     """
 
-    g=Graphe(7,[ (0,2), (0,6), (1,3), (1,5), (2,4), (4,6) ])
+    g=Graphe(7,[ (0,2), (0,6), (1,3), (1,5), (2,4), (3,5), (4,6) ])
     return g
 
 def graphe_complet(n):
@@ -101,7 +101,7 @@ def graphe_complet(n):
     g=Graphe(n)
     for i in range(n):
         for j in range(n):
-            if (i!=j) && (i<j):
+            if (i!=j) and (i<j):
                 g.ajouter_arete(i,j)
     return g
 
@@ -229,7 +229,7 @@ def nombre_aretes(g):
         num_voisins=len(g.voisins(i))
         res=res+num_voisins
     res=res/2
-    return res
+    return int(res)
 
 def matrice_adjacence(g):
     """Retourne la matrice d'adjacence du graphe g.
