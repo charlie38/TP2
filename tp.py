@@ -319,6 +319,33 @@ def matrice_incidence(g):
 # Parcours #
 ############
 
+
+def liste_voisins(g,u):
+#retourne la liste de voisins du sommet u dans le graphe g
+    res=[]
+    for v in g.voisins(u):
+        res.append(v)
+    return res
+
+def deja_vu(elt,liste):
+#retourne True si elt est dans liste
+    i=0
+    while i<len(liste):
+        if liste[i]==elt:
+            return True
+        i=i+1
+    return False
+
+def parcours_rec(g,u,parcourus,parcours):
+#parcours les voisins du sommet u et retourne la liste parcourus modifiées
+    parcourus.append(u)
+    voisins=liste_voisins(g,u)
+    for i in voisins:
+        if not(deja_vu(i,parcourus)):
+            parcourus=parcourus+parcours_rec(g,i,parcourus,parcours)
+            parcours.append(i)
+    return parcourus
+
 def parcours_postfixe(g, u):
     """Affiche la liste des sommets dans l'ordre dans lequel ils sont traités
     lors d'un parcours postfixé du graphe g en partant du sommet u.
@@ -347,11 +374,13 @@ def parcours_postfixe(g, u):
     """
 
     res=str()
-    sommet=g.premier_voisin(u)
-    while sommet!=u :
-        res+=str(sommet)+" "
-        sommet=g.premier_voisin(sommet)
-    return res
+    parcourus=[]
+    parcours=[]
+    parcourus=parcours_rec(g,u,parcourus,parcours)
+    for i in range(len(parcours)):
+        res+=str(parcours[i])+" "
+    res+=str(u)
+    print(res)
 
 # Pour le parcours en largeur, il est nécessaire d'utiliser une file.
 # Vous devez donc implémenter les fonctions creer_file, enfiler, defiler et
